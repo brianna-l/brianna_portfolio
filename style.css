@@ -1,0 +1,38 @@
+h1 {
+    position: fixed;
+    color: rgb(255, 131, 152);
+    font-family: "Ojuju", sans-serif;
+    font-weight: 100;
+    font-size: 13vw;
+    top: 50%;
+    left: 2vw;
+}
+
+nav {
+    display: flex;
+    gap: 2rem;
+    position: fixed;
+    font-size: 2vw;
+    color: rgb(255, 131, 152);
+    font-family: "Ojuju", sans-serif;
+    font-weight: 500;
+    top: 5vh;
+    left: 4vw;
+}
+nav div:hover {
+    color: rgb(249, 47, 81);
+    font-weight: 700;
+}
+
+article {
+    position: fixed;
+    right: 9vw;
+    top: 40%;
+    padding: 7vh 8vw;
+    font-family: "Thasadith", sans-serif;
+    font-size: 2vw;
+    font-weight: 400;
+    color: crimson;
+    border: 1px solid rgb(255, 131, 152);
+    border-radius: 30px;
+}
