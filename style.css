@@ -1,11 +1,26 @@
-h1 {
-    position: fixed;
+* { box-sizing: border-box }
+
+body {
     color: rgb(255, 131, 152);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+h1 {
+    width: fit-content;
+    position: relative;
     font-family: "Ojuju", sans-serif;
     font-weight: 100;
     font-size: 13vw;
-    top: 50%;
-    left: 2vw;
+    margin-left: 2%;
+    margin-top: 5%;
+    transition: 1s;
+}
+
+h1:hover {
+    color: #ffd7de;
+    font-weight: 700;
 }
 
 nav {
@@ -13,26 +28,73 @@ nav {
     gap: 2rem;
     position: fixed;
     font-size: 2vw;
-    color: rgb(255, 131, 152);
     font-family: "Ojuju", sans-serif;
     font-weight: 500;
     top: 5vh;
     left: 4vw;
 }
+nav div {
+    transition: 0.5s;
+}
 nav div:hover {
-    color: rgb(249, 47, 81);
+    color: #ffd7de;
     font-weight: 700;
 }
 
 article {
-    position: fixed;
-    right: 9vw;
-    top: 40%;
-    padding: 7vh 8vw;
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin-top: 25%;
+    justify-content: right;
+}
+
+article p {
+    width: 50%;
     font-family: "Thasadith", sans-serif;
-    font-size: 2vw;
+    font-size: 1em;
     font-weight: 400;
-    color: crimson;
-    border: 1px solid rgb(255, 131, 152);
-    border-radius: 30px;
+    margin-right: 5%;
+    transition: 1s;
+}
+article p:hover {
+    width: 80%;
+    color: #ffd7de;
+    font-size: 1.5em;
+}
+
+
+img {
+	image-rendering: pixelated;
+    border: 0.5px solid black;
+}
+
+/* Container  */
+
+.Container {
+    width: 95%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+    padding: 2rem;
+    margin: 0 auto;
+}
+
+/* cover  */
+
+.cover {
+	border-radius: 5px;
+	width: 45vw;
+    font-family: "Thasadith", sans-serif;
+    font-weight: 100;
+    font-size: 2vw;
+}
+
+.cover img {
+	width: 100%;
+}
+
+.cover p {
+	margin-top: 1rem;
+	justify-self: flex-end;
 }
