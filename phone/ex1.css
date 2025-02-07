@@ -4,6 +4,46 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: black;
+}
+p, a {
+    font-size: 17px;
+    color: #ddd;
+    transform-style: preserve-3d;
+    transform: rotateY(10deg) rotateX(10deg) rotateZ(2deg);
+    filter: drop-shadow(2px 2px 5px);
+}
+a {
+    text-decoration: underline;
+    white-space: nowrap;
+}
+a:hover {
+    cursor: pointer;
+    text-decoration: line-through;
+    filter: blur(1px);
+}
+.links {
+    display: flex;
+    flex-direction: column-reverse;
+}
+#index {
+    display: flex;
+    align-items: flex-end;
+    gap: 50px;
+    width: 320px;
+    height: 240px;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+#brief {
+    min-width: 300px;
+    width: 400px;
+    position: absolute;
+    right: 0.5%;
+    bottom: 0;
 }
 
 #container {
@@ -19,12 +59,45 @@ body, html {
     transition: transform 0.1s;
 }
 
-#object {
-    width: 200px;
-    height: 200px;
-    background-color: #ff0000;
+.object {
+    width: 300px;
+    height: 500px;
     position: absolute;
+    opacity: 20%;
     top: 50%;
     left: 50%;
+    filter: drop-shadow(2px 2px 5px #ddd);
     transform: translate(-50%, -50%) rotateY(0deg);
+    transition: transform 5s ease-in-out;
+}
+
+#object-back {
+    background-image: url(assets/1.png);
+    transform: translate(-50%, -50%) translateZ(-100px);
+}
+
+#object-front-1 {
+    background-image: url(assets/2.png);
+    transform: translate(-50%, -50%) translateZ(100px);
+}
+
+#object-front-2 {
+    background-image: url(assets/3.png);
+    transform: translate(-50%, -50%) translateZ(200px);
+}
+
+
+#light {
+    width: 150px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    transform-style: preserve-3d;
+    opacity: 50%;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    filter: blur(30px);
+    transform: translate(-50%, -50%) translateZ(500px);
+    background-color: #eccd92;
+    mix-blend-mode: hard-light;
 }

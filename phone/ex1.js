@@ -1,34 +1,40 @@
-// 检测设备类型
+// Detect device
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-// 获取 DOM 元素
+// Get DOM elements
 const scene = document.getElementById('scene');
-const object = document.getElementById('object');
+const objectBack = document.getElementById('object-back');
+const objectFront1 = document.getElementById('object-front-1');
+const objectFront2 = document.getElementById('object-front-2');
 
 if (isMobile) {
-    // 手机端：使用陀螺仪
+    // Mobile: Use deviceorientation
     window.addEventListener('deviceorientation', (event) => {
-        const beta = event.beta;  // 前后倾斜角度
-        const gamma = event.gamma; // 左右倾斜角度
+        const beta = event.beta; // front-back tilt
+        const gamma = event.gamma; // left-right tilt
+        const randomZ = Math.random() * 10; // Add random depth to each object
 
-        // 根据陀螺仪数据调整场景的旋转角度
+        // Apply transformations
         scene.style.transform = `rotateX(${beta}deg) rotateY(${gamma}deg)`;
-        object.style.transform = `translate(-50%, -50%) rotateY(${gamma}deg) rotateX(${beta}deg)`;
+        objectBack.style.transform = `translate(-50%, -50%) translateZ(${randomZ}px) rotateY(${gamma}deg) rotateX(${beta}deg)`;
+        objectFront1.style.transform = `translate(-50%, -50%) translateZ(${randomZ}px) rotateY(${gamma}deg) rotateX(${beta}deg)`;
+        objectFront2.style.transform = `translate(-50%, -50%) translateZ(${randomZ}px) rotateY(${gamma}deg) rotateX(${beta}deg)`;
     });
 } else {
-    // 电脑端：使用视线追踪
+    // Desktop: Use Webgazer
     webgazer.setGazeListener((data, elapsedTime) => {
         if (data) {
-            const x = data.x; // 视线水平位置
-            const y = data.y; // 视线垂直位置
+            const x = data.x;
+            const y = data.y;
+            const rotateY = (x / window.innerWidth) * 180 - 90;
+            const rotateX = (y / window.innerHeight) * 120 - 60;
+            const randomZ = Math.random() * 10; // Add random depth to each object
 
-            // 将视线位置映射到旋转角度
-            const rotateY = (x / window.innerWidth) * 180 - 90; // -90 到 90 度
-            const rotateX = (y / window.innerHeight) * 180 - 90; // -90 到 90 度
-
-            // 根据视线位置调整场景的旋转角度
+            // Apply transformations
             scene.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            object.style.transform = `translate(-50%, -50%) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            objectBack.style.transform = `translate(-50%, -50%) translateZ(${randomZ}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            objectFront1.style.transform = `translate(-50%, -50%) translateZ(${randomZ}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            objectFront2.style.transform = `translate(-50%, -50%) translateZ(${randomZ}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
         }
     }).begin();
 }
