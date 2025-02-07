@@ -5,33 +5,25 @@ body {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    margin: 5%;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 h1 {
-    width: fit-content;
+    width: 100%;
     position: relative;
-    font-family: "Ojuju", sans-serif;
     font-weight: 100;
     font-size: 13vw;
-    margin-left: 2%;
     margin-top: 5%;
     transition: 1s;
 }
-
-h1:hover {
-    color: #ffd7de;
-    font-weight: 700;
-}
-
 nav {
     display: flex;
     gap: 2rem;
-    position: fixed;
+    position: sticky;
     font-size: 2vw;
-    font-family: "Ojuju", sans-serif;
     font-weight: 500;
-    top: 5vh;
-    left: 4vw;
+    top: 0.5vh;
 }
 nav div {
     transition: 0.5s;
@@ -45,13 +37,11 @@ article {
     display: flex;
     position: relative;
     width: 100%;
-    margin-top: 25%;
     justify-content: right;
 }
 
 article p {
     width: 50%;
-    font-family: "Thasadith", sans-serif;
     font-size: 1em;
     font-weight: 400;
     margin-right: 5%;
@@ -85,7 +75,6 @@ img {
 .cover {
 	border-radius: 5px;
 	width: 45vw;
-    font-family: "Thasadith", sans-serif;
     font-weight: 100;
     font-size: 2vw;
 }
