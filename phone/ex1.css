@@ -6,29 +6,34 @@ body, html {
     overflow: hidden;
     background-color: black;
 }
-p, a {
+p {
     font-size: 17px;
     color: #ddd;
     transform-style: preserve-3d;
     transform: rotateY(10deg) rotateX(10deg) rotateZ(2deg);
     filter: drop-shadow(2px 2px 5px);
 }
-a {
+p:hover {
     text-decoration: underline;
-    white-space: nowrap;
-}
-a:hover {
     cursor: pointer;
     text-decoration: line-through;
     filter: blur(1px);
 }
+#title {
+    white-space: nowrap;
+}
 .links {
+    margin-top: 20px;
+}
+.links li{
     display: flex;
-    flex-direction: column-reverse;
+    white-space: nowrap;
+}
+.links li p{
+    margin: 2px;
 }
 #index {
     display: flex;
-    align-items: flex-end;
     gap: 50px;
     width: 320px;
     height: 240px;
@@ -38,6 +43,26 @@ a:hover {
     top: 0;
     z-index: 100;
 }
+
+#info-box {
+    display: none;
+    position: absolute;
+    color: white;
+    bottom: 0;
+    left: 0;
+}
+#info-image {
+    max-width: 80vw;
+    height: 600px;
+    margin-right: 10px;
+    filter: sepia(10%);
+}
+#info-description {
+    max-width: 400px;
+    float: right;
+    background: rgba(0, 0, 0, 0.7);
+}
+
 #brief {
     min-width: 300px;
     width: 400px;
