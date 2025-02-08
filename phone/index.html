@@ -3,36 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>File1</title>
     <link rel="stylesheet" href="ex1.css">
 </head>
 <body>
     <div id="index">
-        <p id="title">[ DOCUMENTS ]</p>
-        <div class="links">
-            <li><p>1. WINDOW</p></li>
-            <li><p>2. BOAT</p></li>
-            <li><p>3. PLATFORM</p></li>
-            <li><p>4. SUNSET</p></li>
-            <li><p>5. ICE</p></li>
-        </div>
-        <div class="links">
-            <li><p>6. STREET</p></li>
-            <li><p>7. NOON</p></li>
-            <li><p>8. GRAPE</p></li>
-            <li><p>9. OPERA</p></li>
-            <li><p>10. SURFER</p></li>
-        </div>
-        <div class="links">
-            <li><p>11. HOPE</p></li>
-            <li><p>12. REAR</p></li>
-            <li><p>13. PLATES</p></li>
-            <li><p>14. EYE</p></li>
-        </div>
-    </div>
-    <div id="info-box">
-        <img id="info-image" src="" alt="Image">
-        <div id="info-description"></div>
+        <p class="title">[ DOCUMENTS ]</p>
+        <p class="title">CLEAR</p>
+        <p class="title">LAYER 1</p>
+        <p class="title">LAYER 2</p>
+        <p class="title">LAYER 3</p>
     </div>
     
     <div id="brief">
@@ -41,16 +21,54 @@
     </div>
 
     <div id="container">
-            <div id="light"></div>
         <div id="scene">
-            <div id="object-front-1" class="object"></div>
-            <div id="object-front-2" class="object"></div>
-            <div id="object-back" class="object"></div>
+            <div id="object-front-1" class="object">Object Back</div>
+            <div id="object-front-2" class="object">Object Front 1</div>
+            <div id="object-back" class="object">Object Front 2</div>
         </div>
+
+        <div id="light"></div>
     </div>
+
+    <div id="control-panel">
+        <div id="control-panel-header">
+          <button id="toggle-panel">–</button>
+        </div>
+        <div id="control-panel-body">
+          <button id="toggle-opacity">on / off</button>
     
-    <script src="https://cdn.jsdelivr.net/npm/webgazer@2.1.0/dist/webgazer.min.js"></script>
+          <label for="translateZ-slider">TranslateZ (Depth):</label>
+          <input type="range" id="translateZ-slider" min="100" max="700" value="700">
+    
+          <label for="bgcolor-picker">Background Color:</label>
+          <input type="color" id="bgcolor-picker" value="#ffb937">
+    
+          <label for="blend-mode-select">Mix Blend Mode:</label>
+          <select id="blend-mode-select">
+            <option value="normal">normal</option>
+            <option value="multiply">multiply</option>
+            <option value="screen">screen</option>
+            <option value="overlay" selected>overlay</option>
+            <option value="darken">darken</option>
+            <option value="lighten">lighten</option>
+            <option value="color-dodge">color-dodge</option>
+            <option value="color-burn">color-burn</option>
+            <option value="hard-light">hard-light</option>
+            <option value="soft-light">soft-light</option>
+            <option value="difference">difference</option>
+            <option value="exclusion">exclusion</option>
+            <option value="hue">hue</option>
+            <option value="saturation">saturation</option>
+            <option value="color">color</option>
+            <option value="luminosity">luminosity</option>
+          </select>
+        </div>
+      </div>
+
+    <button id="toggleBackground">Toggle Image</button>
+    
     <script src="ex1.js"></script>
-    <script src="data.js"></script>
+    <script src="layers.js"></script>
+    <script src="control.js"></script>
 </body>
 </html>
