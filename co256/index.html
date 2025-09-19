@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leap</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">LEAP</h1>
+      <nav class="nav">
+        <a href="index.html" aria-current="page" style="color: #007aff;">Journey</a>
+        <a href="archive.html">Archive</a>
+        <a href="comments.html">Reflect</a>
+      </nav>
+      <h2><i>Pick a path to experience the world without it.</i></h2>
+    </div>
+  </header>
+
+  <main>
+    <section class="carousel" aria-label="Story gallery">
+      <button class="navbtn navbtn--prev" aria-label="Previous" id="btnPrev">‹</button>
+
+      <ul class="deck" id="deck">
+        <li class="card" onclick="location.href='travel-flight.html'">✈️ Flight<br><small>→</small></li>
+        <li class="card" onclick="location.href='travel-memory.html'">🕰️ Machinery<br><small>→</small></li>
+        <li class="card" onclick="location.href='travel-connection.html'">❤️ Connection<br><small>→</small></li>
+        <li class="card" onclick="location.href='travel.html'">🌌 Travel<br><small>→</small></li>
+      </ul>
+
+      <button class="navbtn navbtn--next" aria-label="Next" id="btnNext">›</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Before the Invention</p>
+  </footer>
+
+  <script>
+    (function () {
+      const deck = document.getElementById('deck');
+      const cards = Array.from(deck.querySelectorAll('.card'));
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      let idx = 0;
+
+      function render() {
+        cards.forEach((card, i) => {
+          const delta = (i - idx + cards.length) % cards.length; 
+          let rel = delta;
+          if (rel > cards.length/2) rel -= cards.length; 
+
+          card.style.setProperty('--delta', rel);
+          card.classList.toggle('is-center', rel === 0);
+        });
+      }
+
+      function go(n) {
+        idx = (idx + n + cards.length) % cards.length;
+        render();
+      }
+
+      btnPrev.addEventListener('click', () => go(-1));
+      btnNext.addEventListener('click', () => go(1));
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') go(-1);
+        if (e.key === 'ArrowRight') go(1);
+      });
+
+      render();
+    })();
+  </script>
+
+</body>
+</html>

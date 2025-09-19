@@ -1,0 +1,120 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* no scrolling */
+    cursor: crosshair;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  a {
+    color: black;
+  }
+  a:hover {
+    cursor: cell;
+  }
+  
+  /* Base */
+  .brand {
+    font-weight: 400;
+    font-size: 1.2rem;
+    transform: scale(0.8);
+    display: flex;
+    justify-content: center;
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    gap: 1rem;
+    font-size: 1rem;
+  }
+  .nav a {
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .nav a:hover {
+    transform: scale(1.1);
+    color: var(--accent, #007aff);
+  }
+  
+  .scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+  }
+  
+  .drifter {
+    position: absolute;
+    width: clamp(18vh, 22vh, 28vh);
+    aspect-ratio: 4/3;
+    border: 1px solid #e5e5e7;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #60dae6;
+    box-shadow: 0 4px 14px rgba(56, 191, 175, 0.446);
+    cursor: cell;
+    user-select: none;
+    opacity: 0.8;
+  }
+  
+  .drifter img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .drifter .cap {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: .4rem .6rem;
+    font-size: .9rem;
+    color: #fff;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.6));
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  
+  .drifter:hover .cap {
+    opacity: 1;
+  }
+  
+  .drifter::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(to right, rgba(0,0,0,.1) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0,0,0,.1) 1px, transparent 1px);
+    background-size: 20px 20px; /* technical grid */
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .fly-tag{
+  position: absolute;
+  width: 56px; height: 56px;
+  border: 2px solid #111;
+  border-radius: 12px;
+  background: #f5f7fb;
+  color: #111;
+  font: 700 14px/56px "Courier New", ui-monospace, monospace;
+  letter-spacing: 0.12em;
+  text-align: center;
+  box-shadow: 0 0 0 1px #9aa3ad inset, 0 8px 22px rgba(0,0,0,.15);
+  user-select: none;
+  cursor: pointer;
+  z-index: 20;
+}
+.fly-tag::after{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,.08) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events:none;
+}
+.fly-tag:hover{
+  box-shadow: 0 0 0 1px #007aff inset, 0 10px 28px rgba(0,122,255,.25);
+}

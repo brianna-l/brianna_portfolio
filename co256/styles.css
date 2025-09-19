@@ -1,0 +1,148 @@
+:root {
+  --bg:#ffffff;
+  --ink:#111;
+  --muted:#555;
+  --accent:#007aff;
+  --radius:16px;
+  --gap: 220px;      /* spacing between cards */
+  --scaleStep: .15;  /* shrink side cards */
+  --blurStep: 1px;   /* blur side cards */
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  margin:0;
+  text-align:center;
+  cursor: crosshair;
+}
+.site-header, .site-footer { padding:2rem; }
+.site-header .container {
+  display: flex;
+  line-height: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+a {
+  color: var(--ink);
+}
+a:hover {
+  cursor: cell;
+}
+
+/* Base */
+.brand {
+  font-weight: 400;
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: popIn 0.6s ease-out forwards;
+  animation-delay: 1s; /* brand comes first */
+}
+
+.nav {
+  display: flex;
+  font-weight: 600;
+  gap: 1rem;
+  justify-content: center;   /* center horizontally */
+  font-size: 1rem;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: growIn 0.8s ease-in-out forwards;
+  animation-delay: 0.75s;
+}
+
+/* Pop animation for h1 */
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.8); color: transparent; }
+  60%  { opacity: 1; transform: scale(1.2); color: black; }
+  100% { opacity: 1; transform: scale(0.6); color: black; }
+}
+
+/* Nav grows larger than h1 */
+@keyframes growIn {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { opacity: 1; transform: scale(0.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Optional: smooth hover */
+.nav a {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.nav a:hover {
+  transform: scale(1.1);
+  color: var(--accent, #007aff);
+}
+.container h2 {
+  font-size: 3vw;
+  position: absolute;
+  top: 12vh;
+}
+
+.carousel {
+  position:relative;
+  height:70vh; /* ~2/3 viewport height */
+  overflow:visible;
+}
+.deck {
+  list-style:none; margin-top:4rem; padding:0;
+  height:100%;
+}
+.card {
+  position:absolute;
+  top:50%; left:50%;
+  width:300px; height:400px;
+  border-radius:var(--radius);
+  background:#f9f9f9;
+  border:1px solid #ddd;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-size:1.3rem; font-weight:500;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  transform:
+    translate(
+      calc(-50% + (var(--delta) * var(--gap))),
+      -50%
+    )
+    scale(calc(1 - (abs(var(--delta)) * var(--scaleStep))));
+  filter: blur(calc(abs(var(--delta)) * var(--blurStep)));
+  opacity: calc(1 - (abs(var(--delta)) * 0.25));
+  cursor:pointer;
+  transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.card small { font-size:.85rem; color:var(--muted); }
+.card:hover {
+  background:#fff;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+  transform:
+    translate(
+      calc(-50% + (var(--delta) * var(--gap))),
+      -50%
+    )
+    scale(calc(1 - (abs(var(--delta)) * var(--scaleStep)) + 0.05)); /* slight grow */
+}
+
+/* Highlight center card */
+.card.is-center {
+  z-index:5;
+  background:#fff;
+  border-color:var(--accent);
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+}
+
+/* Buttons */
+.navbtn {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:48px; height:48px;
+  border-radius:50%;
+  border:1px solid #ccc;
+  background:#fff;
+  font-size:1.8rem; cursor:pointer;
+  display:grid; place-items:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.navbtn:hover { background:#f3f3f3; }
+.navbtn--prev { left:5%; }
+.navbtn--next { right:5%; }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comment Board</title>
+  <link rel="stylesheet" href="comment.css"/>
+
+  <!-- Firebase v8: app + database -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">LEAP</h1>
+      <nav class="nav">
+        <a href="index.html">Journey</a>
+        <a href="archive.html">Archive</a>
+        <a href="comments.html" aria-current="page" style="color:#007aff">Reflect</a>
+      </nav>
+    </div>
+  </header>
+
+  <p class="lead">Share anything: a constraint to overcome, a dream to pursue, or a caution.</p>
+
+  <div id="chatroom" aria-live="polite"></div>
+
+  <form id="chat" autocomplete="off">
+    <input id="name-input" type="text" placeholder="Name (optional)" maxlength="30"/>
+    <textarea id="message-input" placeholder="Start typing (max 240 chars)" maxlength="240"></textarea>
+    <button id="chat-send" type="submit">Send</button>
+  </form>
+
+  <ul id="chat-list" aria-label="Recent posts"></ul>
+
+  <script src="script.js"></script>
+</body>
+</html>
