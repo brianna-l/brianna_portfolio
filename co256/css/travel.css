@@ -18,10 +18,11 @@ html, body {
     color: var(--ink);
     overflow: hidden; /* no scrolling */
     cursor: crosshair;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: "Satoshi-Variable", sans-serif;
   }
   a {
     color: black;
+    text-decoration: none;
   }
   a:hover {
     cursor: cell;

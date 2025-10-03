@@ -4,76 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leap</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/styles.css" /><link rel="stylesheet" href="css/satoshi.css">
+    <link rel="stylesheet" href="css/array.css">
 </head>
 <body>
-    <!-- Header -->
-  <header class="site-header">
-    <div class="container">
-      <h1 class="brand">LEAP</h1>
-      <nav class="nav">
-        <a href="index.html" aria-current="page" style="color: #007aff;">Journey</a>
-        <a href="archive.html">Archive</a>
-        <a href="comments.html">Reflect</a>
-      </nav>
-      <h2><i>Pick a path to experience the world without it.</i></h2>
+
+  <div class="roll">
+    <div class="roll-track">
+      <h2>Start your journey to experience a world without IT.</h2>
+      <h2>Start your journey to experience a world without IT.</h2>
+      <h2>Start your journey to experience a world without IT.</h2>
     </div>
-  </header>
+  </div>
 
   <main>
     <section class="carousel" aria-label="Story gallery">
-      <button class="navbtn navbtn--prev" aria-label="Previous" id="btnPrev">‹</button>
-
       <ul class="deck" id="deck">
-        <li class="card" onclick="location.href='travel-flight.html'">✈️ Flight<br><small>→</small></li>
-        <li class="card" onclick="location.href='travel-memory.html'">🕰️ Machinery<br><small>→</small></li>
-        <li class="card" onclick="location.href='travel-connection.html'">❤️ Connection<br><small>→</small></li>
-        <li class="card" onclick="location.href='travel.html'">🌌 Travel<br><small>→</small></li>
+        <li class="card" onclick="location.href='travel-flight.html'">
+          <div class="card-inner">Height<br><small>→</small></div>
+        </li>
+        <li class="card" onclick="location.href='travel-memory.html'">
+          <div class="card-inner">Free<br><small>→</small></div>
+        </li>
+        <li class="card" onclick="location.href='travel-connection.html'">
+          <div class="card-inner">Voice<br><small>→</small></div>
+        </li>
+        <li class="card" onclick="location.href='travel.html'">
+          <div class="card-inner">Time<br><small>→</small></div>
+        </li>
       </ul>
-
-      <button class="navbtn navbtn--next" aria-label="Next" id="btnNext">›</button>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Before the Invention</p>
-  </footer>
+    <!-- Header -->
+    <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" aria-current="page" style="background-color: var(--muted);">Journey</a>
+        <a href="archive.html">Archive</a>
+        <a href="comments.html">Reflect</a>
+      </nav>
+      <h1 class="brand">LEAP</h1>
+    </div>
+  </header>
 
   <script>
-    (function () {
+    (function(){
       const deck = document.getElementById('deck');
       const cards = Array.from(deck.querySelectorAll('.card'));
-      const btnPrev = document.getElementById('btnPrev');
-      const btnNext = document.getElementById('btnNext');
-      let idx = 0;
+    
+      if (!cards.length) return;
+    
+      // rotate
+      const N = cards.length;
+      const step = 360 / N;
+      const radius = () => Math.min(window.innerWidth, 1200) * 0.34;
+    
+      // state
+      let angle = 0;
+      let target = 0;
+      let dragging = false;
+      let lastX = 0;
 
-      function render() {
+    //ring
+      function layout(){
+        const r = radius();
         cards.forEach((card, i) => {
-          const delta = (i - idx + cards.length) % cards.length; 
-          let rel = delta;
-          if (rel > cards.length/2) rel -= cards.length; 
-
-          card.style.setProperty('--delta', rel);
-          card.classList.toggle('is-center', rel === 0);
+          const a = step * i;
+          card.dataset.base = a;
+          positionCard(card, a, r);
+        });
+        updateDepthLabels();
+        deck.style.transform = `translateZ(0) rotateY(${angle}deg)`;
+      }
+    
+      function positionCard(card, deg, r){
+        card.style.transform = `
+          translate(-50%, -50%)
+          rotateY(${deg}deg)
+          translateZ(${r}px)
+        `;
+      }
+    
+      //front
+      function updateDepthLabels(){
+        const norm = ((angle % 360) + 360) % 360;
+        let frontIdx = Math.round((360 - norm) / step) % N;
+        if (frontIdx < 0) frontIdx += N;
+    
+        cards.forEach((c, i) => {
+          const delta = Math.min(Math.abs(i - frontIdx), N - Math.abs(i - frontIdx));
+          c.dataset.depth = delta === 0 ? 'front' : (delta === 1 ? 'mid' : 'back');
         });
       }
-
-      function go(n) {
-        idx = (idx + n + cards.length) % cards.length;
-        render();
+    
+      function render(){
+        angle += (target - angle) * 1;
+        deck.style.transform = `translateZ(0) rotateY(${angle}deg)`;
+        updateDepthLabels();
+        requestAnimationFrame(render);
       }
-
-      btnPrev.addEventListener('click', () => go(-1));
-      btnNext.addEventListener('click', () => go(1));
-
+    
+      function go(delta){ target += delta * step; }
       window.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') go(-1);
         if (e.key === 'ArrowRight') go(1);
+        if (e.key === 'ArrowLeft')  go(-1);
       });
-
+    
+      deck.addEventListener('pointerdown', (e) => {
+        dragging = true; lastX = e.clientX; deck.setPointerCapture(e.pointerId);
+      });
+      deck.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - lastX;
+        lastX = e.clientX;
+        target += dx * 0.25;
+      });
+      deck.addEventListener('pointerup',   () => dragging = false);
+      deck.addEventListener('pointercancel',() => dragging = false);
+    
+      deck.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        target += (e.deltaY > 0 ? 1 : -1) * (step * 0.6);
+      }, { passive: false });
+    
+      window.addEventListener('resize', layout);
+    
+      layout();
       render();
     })();
-  </script>
+    </script>
+    
 
 </body>
 </html>

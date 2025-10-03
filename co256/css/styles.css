@@ -1,0 +1,182 @@
+:root {
+  --bg:#ffffff;
+  --ink:#111;
+  --muted:#a2ced3;
+  --accent:#ffd000;
+  --radius:999px;
+  --gap: 220px;
+  --scaleStep: .15;
+  --blurStep: 1px;
+}
+
+body {
+  font-family: "Satoshi-Variable", "Array", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  margin:0;
+  text-align:center;
+  cursor: crosshair;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.site-header {
+  padding:1rem;
+}
+.site-header .container {
+  display: flex;
+  line-height: 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+a {
+  font-family: "Satoshi-Variable", sans-serif;
+  color: var(--ink);
+  text-decoration: none;
+}
+a:hover {
+  cursor: cell;
+}
+
+/* Base */
+.brand {
+  font-family: "Array-Regular";
+  font-weight: 100;
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: popIn 0.6s ease-out forwards;
+  animation-delay: 1s;
+}
+.nav {
+  font-family: "Satoshi-Variable", sans-serif;
+  display: flex;
+  font-weight: 600;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 1px solid #4b8e96;
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: growIn 0.8s ease-in-out forwards;
+  animation-delay: 0.75s;
+}
+.nav a {
+  background-color: #ffffff00;
+  border-radius: 999px;
+  padding: 0.5rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.nav a:hover {
+  background-color: #ffd000;
+  transform: scale(1.1);
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.8); color: transparent; }
+  60%  { opacity: 1; transform: scale(1.2); color: black; }
+  100% { opacity: 1; transform: scale(0.6); color: black; }
+}
+@keyframes growIn {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { opacity: 1; transform: scale(0.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.roll {
+  position: relative;
+  overflow: hidden;
+  height: min-content;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+  border-bottom: 1.5px solid #4b8e96;
+  padding: 0 0 0.3rem 0;
+}
+.roll-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 20s linear infinite;
+}
+.roll h2 {
+  font-family: "Array-Regular";
+  font-size: 3.5rem;
+  font-weight: 200;
+  position: relative;
+  margin: 0;
+  white-space: nowrap;  
+}
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.carousel{
+  margin: 14vh 0 12vh 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  perspective: 1200px;
+}
+.deck{
+  position: relative;
+  width: min(84vw, 780px);
+  height: min(60vh, 520px);
+  transform-style: preserve-3d;
+  transition: transform 800ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+.card{
+  position: absolute; top: 50%; left: 50%;
+  width: min(68vw, 360px);
+  height: min(52vh, 460px);
+  transform: translate(-50%,-50%);
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid var(--muted);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-size: 1.3rem; font-weight: 500;
+  box-shadow: 0 0px 15px var(--muted);
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+}
+.card-inner {
+  font-family: "Satoshi-Variable", sans-serif;
+  width: 100%; height: 100%;
+  border-radius: var(--radius);
+  line-height: 1.8rem;
+  background: #ffffffca;
+  border: 1px solid var(--muted);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-inner:hover {
+  font-family: "Array-Regular";
+  transform: scale(0.7);
+  line-height: 4.2rem;
+  background: #ffd000d5;
+  border: 1px solid #dddddd00;
+  box-shadow: 0 0px 30px var(--accent);
+  font-size: 5rem; font-weight: 300;
+}
+.card[data-depth="back"] {
+  filter: opacity(.85) saturate(.9) blur(.3px); 
+}
+.card[data-depth="mid"]  {
+  filter: opacity(.93); 
+}
+.card[data-depth="front"]{
+  filter: none;
+  box-shadow: 0 0px 30px var(--muted);
+  border-color: var(--ink);
+}
+.card[data-depth="front"]:hover {
+  border-color: var(--muted);
+}
+.card[data-depth="front"]:hover{
+  transform: translate(-50%,-50%) scale(1.03);
+}
