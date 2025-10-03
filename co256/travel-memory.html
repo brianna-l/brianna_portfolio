@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machines</title>
+    <link rel="stylesheet" href="css/machines.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+              <a href="index.html" aria-current="page">End Trip</a>
+            </nav>
+          </div>
+      </header>
+
+      <main class="wrapper">
+        <header class="topbar">
+          <div class="controls">
+            <label for="organize" class="sr-only">Organize images slider</label>
+            <input id="organize" class="range" type="range" min="0" max="100" value="0" step="1" />
+            <span class="hint">+ MACHINE</span>
+          </div>
+        </header>
+    
+        <section class="stage" id="stage" aria-label="Collage morphs into machine grid">
+          <div class="pile" id="pile" aria-live="polite"></div>
+        </section>
+
+        <div id="popover" class="popover" role="dialog" aria-modal="true" aria-hidden="true">
+            <button class="popover__close" aria-label="Close">×</button>
+            <figure class="popover__figure">
+              <img id="popover-img" alt="" />
+              <figcaption id="popover-caption"></figcaption>
+            </figure>
+          </div>
+        </section>
+    
+        <noscript class="noscript">
+          This page needs JavaScript enabled to load images.
+        </noscript>
+      </main>
+    
+      <script src="machines.js" defer></script>
+</body>
+</html>

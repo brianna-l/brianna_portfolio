@@ -52,21 +52,18 @@
     (function(){
       const deck = document.getElementById('deck');
       const cards = Array.from(deck.querySelectorAll('.card'));
-    
       if (!cards.length) return;
-    
-      // rotate
+
+      // rotation configuration
       const N = cards.length;
       const step = 360 / N;
       const radius = () => Math.min(window.innerWidth, 1200) * 0.34;
-    
+
       // state
       let angle = 0;
       let target = 0;
-      let dragging = false;
-      let lastX = 0;
 
-    //ring
+      // initial ring layout
       function layout(){
         const r = radius();
         cards.forEach((card, i) => {
@@ -77,7 +74,7 @@
         updateDepthLabels();
         deck.style.transform = `translateZ(0) rotateY(${angle}deg)`;
       }
-    
+
       function positionCard(card, deg, r){
         card.style.transform = `
           translate(-50%, -50%)
@@ -85,55 +82,51 @@
           translateZ(${r}px)
         `;
       }
-    
-      //front
+
+      // mark which card is in front/mid/back
       function updateDepthLabels(){
         const norm = ((angle % 360) + 360) % 360;
         let frontIdx = Math.round((360 - norm) / step) % N;
         if (frontIdx < 0) frontIdx += N;
-    
+
         cards.forEach((c, i) => {
           const delta = Math.min(Math.abs(i - frontIdx), N - Math.abs(i - frontIdx));
           c.dataset.depth = delta === 0 ? 'front' : (delta === 1 ? 'mid' : 'back');
         });
       }
-    
+
+      // animation loop
       function render(){
-        angle += (target - angle) * 1;
+        angle += (target - angle) * 1; // keep snap-fast behavior
         deck.style.transform = `translateZ(0) rotateY(${angle}deg)`;
         updateDepthLabels();
         requestAnimationFrame(render);
       }
-    
+
+      // navigation helpers
       function go(delta){ target += delta * step; }
+
+      // keep arrow keys
       window.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') go(1);
         if (e.key === 'ArrowLeft')  go(-1);
       });
-    
-      deck.addEventListener('pointerdown', (e) => {
-        dragging = true; lastX = e.clientX; deck.setPointerCapture(e.pointerId);
-      });
-      deck.addEventListener('pointermove', (e) => {
-        if (!dragging) return;
-        const dx = e.clientX - lastX;
-        lastX = e.clientX;
-        target += dx * 0.25;
-      });
-      deck.addEventListener('pointerup',   () => dragging = false);
-      deck.addEventListener('pointercancel',() => dragging = false);
-    
+
+      // keep scroll (wheel)
       deck.addEventListener('wheel', (e) => {
         e.preventDefault();
         target += (e.deltaY > 0 ? 1 : -1) * (step * 0.6);
       }, { passive: false });
-    
+
+      // remove drag/pointer navigation — intentionally omitted
+
+      // responsive
       window.addEventListener('resize', layout);
-    
+
       layout();
       render();
     })();
-    </script>
+  </script>
     
 
 </body>

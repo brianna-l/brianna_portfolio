@@ -1,5 +1,5 @@
 :root {
-  --bg:#ffffff;
+  --bg:#4d57dd;
   --ink:#111;
   --muted:#a2ced3;
   --accent:#ffd000;
@@ -10,8 +10,8 @@
 }
 
 body {
-  font-family: "Satoshi-Variable", "Array", sans-serif;
-  background: var(--bg);
+  font-family: "Satoshi-Variable", "Array", sans-serif;background: #4D57DD;
+  background: radial-gradient(circle, rgba(77, 87, 221, 1) 0%, rgba(250, 244, 190, 1) 100%);
   color: var(--ink);
   margin:0;
   text-align:center;
@@ -61,6 +61,7 @@ a:hover {
   transform: scale(0.8);
   animation: growIn 0.8s ease-in-out forwards;
   animation-delay: 0.75s;
+  background-color: #ffd000;
 }
 .nav a {
   background-color: #ffffff00;
@@ -93,6 +94,7 @@ a:hover {
   padding: 0;
   z-index: 1;
   border-bottom: 1.5px solid #4b8e96;
+  background-color: #ffd000;
   padding: 0 0 0.3rem 0;
 }
 .roll-track {

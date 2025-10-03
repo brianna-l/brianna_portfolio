@@ -10,7 +10,7 @@ const HOP_RANGE = [-24, -10];
 const AUTO_JUMP_MS = [1800, 5500];
 
 // FLY tag motion
-const FLY_SPEED = [1.2, 2.2];
+const FLY_SPEED = [0.6, 0.6];
 const FLY_SIZE = 56;
 const FLY_PUSH_COOLDOWN = 700;
 //
@@ -138,7 +138,7 @@ function updateLow(el) {
 function makeFlyTag(onClick) {
   const tag = document.createElement("button");
   tag.className = "fly-tag";
-  tag.textContent = "FLY";
+  tag.textContent = "BOOST";
   $scene.appendChild(tag);
 
   tag._s = {

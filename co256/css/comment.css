@@ -1,7 +1,7 @@
 :root { --ink: #111; }
 
 body { 
-  font-family: "Satoshi-Variable", sans-serif; margin:0; text-align:center;cursor: crosshair;
+  font-family: "Satoshi-Variable", sans-serif; margin:0; text-align:center;cursor: crosshair; background-color: rgb(229, 244, 176);
 }
 
 .site-header {
@@ -36,27 +36,28 @@ justify-content: center;
 font-size: 1.2rem;
 border: 1px solid #4b8e96;
 border-radius: 999px;
+background-color: #d5d1fc;
 }
 .nav a {
-background-color: #ffffffb5;
 border-radius: 999px;
 padding: 0.5rem;
 transition: transform 0.2s ease, color 0.2s ease;
 }
 .nav a:hover {
-background-color: #a6f2f1;
+background-color: #d5d1fc;
 transform: scale(1.1);
 }
 
 .lead {
   width: 100%;
   height: min-content;
-  margin: 0 1rem;
+  margin: 0.5rem 1rem;
   text-align: left;
   font-family: "Array-Regular";
+  line-height: 3rem;
   font-size: 3.5rem;
   font-weight: 200;
-  color:#555; 
+  color:#111; 
 }
 
 #chatroom {
@@ -64,21 +65,27 @@ transform: scale(1.1);
   height: 60vh;
   max-width: 97%;
   margin: 1rem auto;
-  border: 1px solid #e5e5e7;
-  border-radius: 12px;
-  background: #fff;
+  border-radius: 999px;
+  background: #958dd9;
   overflow: hidden;
 }
 
 #chat {
-  display: grid;
+  display: flex;
   gap: .5rem;
+  justify-content: right;
+  align-items: flex-start;
+  margin: 0 1rem;
 }
-#name-input, #message-input {
-  border: 1px solid #e5e5e7; border-radius: 10px; padding: .6rem .75rem;
+#name-input, #message-input, #chat-send {
+  border: 1px solid #111; border-radius: 1px; padding: .6rem .75rem;
 }
-#message-input { min-height: 90px; resize: vertical; }
-#chat-send { background:#f989e4; color:#fff; border:none; border-radius:10px; padding:.55rem .9rem; cursor:pointer; }
+#message-input { min-height: 90px; resize: vertical; width: 80%;}
+#chat-send { background:#f989e4; color:#fff;cursor:pointer; width: 10vw; font-family: "Array-Regular"; font-weight: 100;}
+#chat-list {
+  text-align: left;
+  color: #f23cd1;
+}
 
 .note {
   position: absolute;
@@ -86,7 +93,7 @@ transform: scale(1.1);
   padding: .6rem .75rem;
   background:#fff;
   border:1px solid #e5e5e7;
-  border-radius:10px;
+  border-radius: 1px;
   box-shadow:0 2px 8px rgba(0,0,0,.08);
   font-size: .95rem;
 }

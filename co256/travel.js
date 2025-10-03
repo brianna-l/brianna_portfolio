@@ -82,8 +82,8 @@ async function showRandomImages(){
     // basic technical frame
     img.style.position = 'absolute';
     img.style.width = '180px';
-    img.style.border = '2px solid #333';
-    img.style.borderRadius = '6px';
+    img.style.border = '1px solid #333';
+    img.style.borderRadius = '1px';
     img.style.background = '#f9f9fb';
     img.style.boxShadow = '0 0 0 1px #999 inset, 0 6px 18px rgba(0,0,0,.15)';
 
