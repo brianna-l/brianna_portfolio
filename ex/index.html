@@ -2,69 +2,126 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MindAR Debug Starter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Image-Tracked AR (MindAR + Three.js)</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <style>
-    html,body{margin:0;height:100%;overflow:hidden;background:#000;}
-    #start{position:fixed;inset:auto 0 0 0;margin:auto;width:max-content;padding:12px 16px;background:#fff;border:0;border-radius:12px;cursor:pointer;font:600 16px/1 system-ui}
-    #log{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,.6);color:#0f0;font:12px/1.4 ui-monospace,monospace;max-height:40vh;overflow:auto;white-space:pre-wrap;padding:8px;display:none}
+    html, body { margin:0; height:100%; background:#000; overflow:hidden; }
+    #start {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+      padding: 12px 16px; border: 0; border-radius: 12px; background:#fff; color:#000;
+      font: 600 16px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      z-index: 10;
+    }
+    #log {
+      position: fixed; inset: 0 0 auto 0; padding: 8px;
+      font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color:#0f0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.7), transparent);
+      white-space: pre-wrap; max-height: 40vh; overflow: auto; display:none; z-index: 9;
+    }
+    #hint {
+      position: fixed; inset: auto 0 84px 0; text-align: center; color:#fff; opacity:.85; z-index: 5;
+      font: 500 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      pointer-events: none;
+    }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar/dist/mindar-image-three.prod.js"></script>
 </head>
 <body>
   <button id="start">Start AR</button>
   <div id="log"></div>
+  <div id="hint">Point your camera at the target image</div>
+
+  <!-- 1) Three.js, then 2) MindAR. Keep this order. -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar/dist/mindar-image-three.prod.js"></script>
+
+  <!-- 3) Your app code -->
   <script>
+    // --- tiny logger to surface issues on the phone screen ---
     const logBox = document.getElementById('log');
     const log = (...a)=>{ logBox.style.display='block'; logBox.textContent += a.join(' ') + '\n'; console.log(...a); };
     window.addEventListener('error', e => log('JS Error:', e.message));
     window.addEventListener('unhandledrejection', e => log('Promise Rejection:', e.reason?.message || e.reason));
 
+    // Ensure libs loaded
+    if (!window.THREE) {
+      alert('Three.js failed to load. Check the <script> URL.');
+    }
+    if (!window.MINDAR || !window.MINDAR.IMAGE) {
+      alert('MindAR failed to load. Check the <script> URL and order (Three.js first).');
+    }
+
+    // Start AR on tap (required by iOS)
     document.getElementById('start').addEventListener('click', async () => {
       try {
-        // Basic feature checks
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          log('No camera API (https or permissions issue).'); return;
+        // Quick fetch check to make sure targets.mind is reachable at this path
+        try {
+          const r = await fetch('./targets.mind', {cache: 'no-store'});
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          const b = await r.blob();
+          log('targets.mind OK —', b.size, 'bytes');
+        } catch (e) {
+          log('targets.mind load error:', e.message);
         }
+
+        // Create MindAR + Three
         const mindar = new window.MINDAR.IMAGE.MindARThree({
           container: document.body,
-          imageTargetSrc: './targets.mind', // make sure this path is correct
+          imageTargetSrc: './targets.mind', // <-- keep targets.mind next to this index.html
+          // Optional tuning for stability
+          filterMinCF: 0.0005,
+          filterBeta: 0.01
         });
 
         const { renderer, scene, camera } = mindar;
-        scene.add(new THREE.AmbientLight(0xffffff, 1));
 
-        // simple white plate to verify tracking
+        // Basic lighting so things are visible
+        scene.add(new THREE.AmbientLight(0xffffff, 1));
+        const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+        dir.position.set(0, 1, 1);
+        scene.add(dir);
+
+        // Create an anchor bound to the first target (index 0)
         const anchor = mindar.addAnchor(0);
+
+        // --- Minimal visual to prove it works: a white plate + floating sphere ---
+        // Plate at the marker (8 cm square)
         const plate = new THREE.Mesh(
-          new THREE.PlaneGeometry(0.06, 0.06),
-          new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.8 })
+          new THREE.PlaneGeometry(0.08, 0.08),
+          new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.18 })
         );
         plate.rotation.x = -Math.PI/2;
-        anchor.group.add(plate);
+        plate.position.set(0, 0.005, 0);
 
-        anchor.onTargetFound = ()=> log('Target FOUND');
-        anchor.onTargetLost  = ()=> log('Target LOST');
+        // Floating sphere (2 cm radius) that hovers above the plate
+        const sphere = new THREE.Mesh(
+          new THREE.SphereGeometry(0.02, 32, 32),
+          new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.6, roughness: 0.25 })
+        );
+        sphere.position.set(0, 0.02, 0);
 
-        // start AR (triggers camera prompt)
+        const group = new THREE.Group();
+        group.add(plate);
+        group.add(sphere);
+        anchor.group.add(group);
+
+        anchor.onTargetFound = () => { log('Target FOUND'); document.getElementById('hint').style.display = 'none'; };
+        anchor.onTargetLost  = () => { log('Target LOST');  document.getElementById('hint').style.display = '';    };
+
+        // Start AR (triggers camera prompt)
         await mindar.start();
-        log('MindAR started.');
         document.getElementById('start').remove();
 
+        // Animate (gentle hover)
         const clock = new THREE.Clock();
         renderer.setAnimationLoop(() => {
-          const dt = clock.getDelta(); // keep in case you animate later
+          const t = clock.getElapsedTime();
+          sphere.position.y = 0.02 + Math.sin(t * 1.6) * 0.007;
           renderer.render(scene, camera);
         });
-
-        // extra: confirm targets.mind actually loads (shows size)
-        fetch('./targets.mind').then(r=>{ log('targets.mind HTTP', r.status, r.statusText); return r.blob(); })
-                               .then(b=>log('targets.mind size', b.size,'bytes'))
-                               .catch(err=>log('targets.mind fetch error', err.message));
-
       } catch (err) {
-        log('Start failed:', err.message || err);
+        log('Start failed:', err && (err.message || err));
       }
     });
   </script>
