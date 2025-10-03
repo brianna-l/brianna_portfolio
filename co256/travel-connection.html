@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection</title>
+    <link rel="stylesheet" href="css/voice.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+              <a href="index.html" aria-current="page">End Trip</a>
+            </nav>
+          </div>
+      </header>
+  <main class="wrap">
+    <header class="top">
+      <p class="sub">Your Friend Just Sent You A Message...</p>
+      <div class="tools">
+        <button id="shuffleBtn" type="button">Shuffle</button>
+        <button id="clearLinesBtn" type="button" class="ghost">Refresh</button>
+        <button id="machineBtn" type="button" class="machine">Machine: OFF</button>
+        <span id="status" class="status">Idle</span>
+      </div>
+    </header>
+
+    <section class="stage" id="stage">
+      <!-- Lines layer (SVG inside padded area) -->
+      <svg id="wires" class="wires" aria-hidden="true"></svg>
+
+      <!-- Images layer -->
+      <div id="nodes" class="nodes" aria-label="Clickable images"></div>
+
+      <!-- Used captions box -->
+      <aside class="usedbox" id="usedbox" aria-label="Used images">
+        <div class="usedbox__head">Sent Messages</div>
+        <ol class="usedbox__list" id="usedList"></ol>
+      </aside>
+
+      <!-- Progress -->
+      <div class="progress" id="progress" hidden>
+        <div class="bar" id="bar"></div>
+        <span class="ptime" id="ptime">0.00s</span>
+      </div>
+    </section>
+
+    <noscript class="noscript">This page needs JavaScript enabled.</noscript>
+  </main>
+
+    <script src="voice.js"></script>
+</body>
+</html>

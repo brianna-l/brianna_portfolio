@@ -7,7 +7,7 @@
   :root[data-theme="dark"] {
     --bg: #000000;
     --ink: #e8f1ff;
-    --accent: #0ff;
+    --accent: #ffd000;
   }
 
 html, body {
@@ -53,6 +53,8 @@ html, body {
     font-size: 3.5rem;
     color: #4a4a4a;
   }
+
+  .sub { margin: 1rem 0 0 0; color: #ffffffbc; font-size: 14px; text-align: center;}
 
   .theme-toggle{
     position: fixed; top: 20px; right: 16px; z-index: 1000;

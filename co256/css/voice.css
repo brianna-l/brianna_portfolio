@@ -1,0 +1,178 @@
+:root{
+    --accent: #da3e3e;
+    --ink: #0f1b26;
+    --muted: #6a7a8a;
+    --bg: #f6f8fb;
+    --pad: 14px;     /* inner padding inside stage */
+  }
+
+  a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+  }
+  a:hover {
+    cursor: cell;
+    color: #bababa;
+  }
+  .nav {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .nav a {
+    transition: font-size 0.2s ease, color 0.2s ease;
+    font-size: 1rem;
+  }
+  .nav a:hover {
+    font-size: 3.5rem;
+  }
+  
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  
+  .wrap { max-width: min(1200px, 94vw); margin: 24px auto 60px;}
+  .top { display: flex; flex-direction: column; justify-content: center; align-items: center;}
+  .top h1 { margin: 0 0 6px; font-size: 22px;}
+  .sub { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  
+  .tools { display:flex; gap:5px; align-items:center; flex-wrap: wrap; }
+  .tools button{
+    border: 1px solid #dbe6f1; background: transparent; color: var(--ink);
+    padding: 8px 12px; border-radius: 999px; cursor: pointer; font-size: 13px; margin-bottom: 1rem;
+  }
+  .tools button:hover{ background: #ffd000; }
+  .tools .ghost{ background: #f7fbff; }
+  .machine.active{
+    background: #ffd000;
+    border-color: #bcd6ea;
+    color: var(--ink);
+    box-shadow: 0 0 0 2px #ffd000 inset;
+  }
+  .status { margin-left: auto; color: var(--muted); font-size: 13px; }
+  
+  .stage{
+    position: relative;
+    width: 100%;
+    height: clamp(480px, 72vh, 980px);
+    background: #eef3f9;
+    border: 1px solid #dde7f2;
+    border-radius: 1px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0,0,0,.08);
+  }
+  
+  /* Lines layer spans the padded inner area */
+  .wires{
+    position: absolute;
+    left: var(--pad); top: var(--pad); right: var(--pad); bottom: var(--pad);
+  }
+  
+  /* Images layer on top */
+  .nodes{
+    position: absolute;
+    inset: var(--pad);
+    opacity: 0.7;
+  }
+  
+  /* Image buttons */
+  .node{
+    position: absolute;
+    display: inline-block;
+    border: none; background: transparent; padding: 0; cursor: pointer;
+    transform: translate(-50%, -50%); /* position by center */
+  }
+  .node:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
+  
+  .node img{
+    display: block;
+    width: clamp(100px, 14vw, 220px);
+    height: 1/1;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+    border: 1px solid rgba(0,0,0,.04);
+    background: #fff;
+    user-select: none;
+    pointer-events: none;
+  }
+  
+  /* Start node highlight */
+  .node[data-active="true"] img{
+    box-shadow: 0 0 0 3px rgba(33,97,141,.35), 0 12px 28px rgba(0,0,0,.14);
+  }
+  
+  /* Path styles */
+  path.link{
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,.15));
+    opacity: .95;
+  }
+  
+  /* Live path while drawing */
+  path.live{
+    stroke-dasharray: 6 6;
+    opacity: .8;
+  }
+  
+  /* Progress bar pinned to bottom-left */
+  .progress{
+    position: absolute;
+    left: var(--pad); right: var(--pad); bottom: var(--pad);
+    height: 12px; border-radius: 999px; background: #e8eff6;
+    border: 1px solid #dbe6f1; overflow: hidden;
+    display: flex; align-items: center;
+  }
+  .bar{
+    height: 100%; width: 0%;
+    background: #ffd000;
+    transition: none;
+  }
+  .ptime{
+    position: absolute; right: 10px; bottom: 100%;
+    transform: translateY(-6px);
+    font-size: 12px; color: var(--muted);
+    background: rgba(255,255,255,.85);
+    padding: 2px 6px; border-radius: 6px; border: 1px solid #e4edf6;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  
+  /* Used captions box (top-right inside stage) */
+  .usedbox{
+    position: absolute;
+    top: var(--pad);
+    right: var(--pad);
+    width: clamp(200px, 24vw, 300px);
+    max-height: 40%;
+    background: rgba(255,255,255,.92);
+    border: 1px solid #dbe6f1;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    backdrop-filter: blur(2px);
+  }
+  .usedbox__head{
+    font-size: 12px; letter-spacing:.04em; text-transform: uppercase;
+    color:#365166; background:#f4f8fc;
+    padding: 8px 10px; border-bottom: 1px solid #e6eef7;
+  }
+  .usedbox__list{
+    margin: 0; padding: 8px 12px; list-style: decimal inside;
+    overflow: auto; font-size: 13px; color:#1f2b36;
+  }
+  .usedbox__list li + li{ margin-top: 4px; }
+  
+  .noscript{ margin-top: 14px; color: var(--muted); font-size: 14px; }
+  
