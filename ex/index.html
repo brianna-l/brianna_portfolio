@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Image-Tracked AR (MindAR + Three.js)</title>
+  <title>Image-Tracked AR (Local Libs)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <style>
     html, body { margin:0; height:100%; background:#000; overflow:hidden; }
@@ -30,62 +30,33 @@
   <div id="log"></div>
   <div id="hint">Point your camera at the target image</div>
 
+  <!-- Load LOCAL copies (no CDN) -->
+  <script src="./libs/three.min.js"></script>
+  <script src="./libs/mindar-image-three.prod.js"></script>
+
   <script>
-    // ---------- tiny on-screen logger ----------
     const logBox = document.getElementById('log');
     const log = (...a)=>{ logBox.style.display='block'; logBox.textContent += a.join(' ') + '\n'; console.log(...a); };
     window.addEventListener('error', e => log('JS Error:', e.message));
     window.addEventListener('unhandledrejection', e => log('Promise Rejection:', e.reason?.message || e.reason));
 
-    // ---------- robust sequential loader with fallback ----------
-    function loadScript(url) {
-      return new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = url;
-        s.async = false;
-        s.crossOrigin = 'anonymous';
-        s.referrerPolicy = 'no-referrer';
-        s.onload = () => { log('Loaded:', url); resolve(); };
-        s.onerror = () => { log('FAILED:', url); reject(new Error('Load failed: ' + url)); };
-        document.head.appendChild(s);
-      });
-    }
+    // Sanity check: did our local libs load?
+    if (!window.THREE) alert('Local THREE not found. Is ./libs/three.min.js present?');
+    if (!window.MINDAR || !window.MINDAR.IMAGE) alert('Local MindAR not found. Is ./libs/mindar-image-three.prod.js present?');
 
-    async function loadThree() {
-      const primary = "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js";
-      const fallback = "https://unpkg.com/three@0.161.0/build/three.min.js";
-      try { await loadScript(primary); }
-      catch { await loadScript(fallback); }
-      if (!window.THREE) throw new Error('THREE not available after loading.');
-    }
-
-    async function loadMindAR() {
-      // Pin a known version of mind-ar
-      const primary = "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
-      const fallback = "https://unpkg.com/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
-      try { await loadScript(primary); }
-      catch { await loadScript(fallback); }
-      if (!window.MINDAR || !window.MINDAR.IMAGE) throw new Error('MINDAR.IMAGE not available after loading.');
-    }
-
-    async function ensureTargets() {
-      try {
-        const r = await fetch('./targets.mind', { cache: 'no-store' });
-        log('targets.mind HTTP', r.status);
-        if (!r.ok) throw new Error('targets.mind not found (check path/case).');
-        const b = await r.blob();
-        log('targets.mind size', b.size, 'bytes');
-      } catch (e) {
-        log('targets.mind load error:', e.message);
-      }
-    }
-
-    // ---------- main: start on user tap (iOS requirement) ----------
+    // Start on tap (iOS requirement)
     document.getElementById('start').addEventListener('click', async () => {
       try {
-        await loadThree();
-        await loadMindAR();
-        await ensureTargets();
+        // Make sure targets.mind is reachable
+        try {
+          const r = await fetch('./targets.mind', { cache: 'no-store' });
+          log('targets.mind HTTP', r.status);
+          if (!r.ok) throw new Error('Not found');
+          const b = await r.blob();
+          log('targets.mind size', b.size, 'bytes');
+        } catch (e) {
+          log('targets.mind load error:', e.message);
+        }
 
         const mindar = new window.MINDAR.IMAGE.MindARThree({
           container: document.body,
@@ -125,7 +96,7 @@
         anchor.onTargetFound = () => { log('Target FOUND'); document.getElementById('hint').style.display = 'none'; };
         anchor.onTargetLost  = () => { log('Target LOST');  document.getElementById('hint').style.display = '';    };
 
-        await mindar.start();                  // triggers camera prompt
+        await mindar.start(); // camera prompt
         document.getElementById('start').remove();
 
         const clock = new THREE.Clock();
