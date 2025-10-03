@@ -11,8 +11,7 @@
       position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
       padding: 12px 16px; border: 0; border-radius: 12px; background:#fff; color:#000;
       font: 600 16px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0,0,0,.35);
-      z-index: 10;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35); z-index: 10;
     }
     #log {
       position: fixed; inset: 0 0 auto 0; padding: 8px;
@@ -22,8 +21,7 @@
     }
     #hint {
       position: fixed; inset: auto 0 84px 0; text-align: center; color:#fff; opacity:.85; z-index: 5;
-      font: 500 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      pointer-events: none;
+      font: 500 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; pointer-events: none;
     }
   </style>
 </head>
@@ -32,61 +30,80 @@
   <div id="log"></div>
   <div id="hint">Point your camera at the target image</div>
 
-  <!-- 1) Three.js, then 2) MindAR. Keep this order. -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar/dist/mindar-image-three.prod.js"></script>
-
-  <!-- 3) Your app code -->
   <script>
-    // --- tiny logger to surface issues on the phone screen ---
+    // ---------- tiny on-screen logger ----------
     const logBox = document.getElementById('log');
     const log = (...a)=>{ logBox.style.display='block'; logBox.textContent += a.join(' ') + '\n'; console.log(...a); };
     window.addEventListener('error', e => log('JS Error:', e.message));
     window.addEventListener('unhandledrejection', e => log('Promise Rejection:', e.reason?.message || e.reason));
 
-    // Ensure libs loaded
-    if (!window.THREE) {
-      alert('Three.js failed to load. Check the <script> URL.');
-    }
-    if (!window.MINDAR || !window.MINDAR.IMAGE) {
-      alert('MindAR failed to load. Check the <script> URL and order (Three.js first).');
+    // ---------- robust sequential loader with fallback ----------
+    function loadScript(url) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = url;
+        s.async = false;
+        s.crossOrigin = 'anonymous';
+        s.referrerPolicy = 'no-referrer';
+        s.onload = () => { log('Loaded:', url); resolve(); };
+        s.onerror = () => { log('FAILED:', url); reject(new Error('Load failed: ' + url)); };
+        document.head.appendChild(s);
+      });
     }
 
-    // Start AR on tap (required by iOS)
+    async function loadThree() {
+      const primary = "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js";
+      const fallback = "https://unpkg.com/three@0.161.0/build/three.min.js";
+      try { await loadScript(primary); }
+      catch { await loadScript(fallback); }
+      if (!window.THREE) throw new Error('THREE not available after loading.');
+    }
+
+    async function loadMindAR() {
+      // Pin a known version of mind-ar
+      const primary = "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
+      const fallback = "https://unpkg.com/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
+      try { await loadScript(primary); }
+      catch { await loadScript(fallback); }
+      if (!window.MINDAR || !window.MINDAR.IMAGE) throw new Error('MINDAR.IMAGE not available after loading.');
+    }
+
+    async function ensureTargets() {
+      try {
+        const r = await fetch('./targets.mind', { cache: 'no-store' });
+        log('targets.mind HTTP', r.status);
+        if (!r.ok) throw new Error('targets.mind not found (check path/case).');
+        const b = await r.blob();
+        log('targets.mind size', b.size, 'bytes');
+      } catch (e) {
+        log('targets.mind load error:', e.message);
+      }
+    }
+
+    // ---------- main: start on user tap (iOS requirement) ----------
     document.getElementById('start').addEventListener('click', async () => {
       try {
-        // Quick fetch check to make sure targets.mind is reachable at this path
-        try {
-          const r = await fetch('./targets.mind', {cache: 'no-store'});
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          const b = await r.blob();
-          log('targets.mind OK —', b.size, 'bytes');
-        } catch (e) {
-          log('targets.mind load error:', e.message);
-        }
+        await loadThree();
+        await loadMindAR();
+        await ensureTargets();
 
-        // Create MindAR + Three
         const mindar = new window.MINDAR.IMAGE.MindARThree({
           container: document.body,
-          imageTargetSrc: './targets.mind', // <-- keep targets.mind next to this index.html
-          // Optional tuning for stability
+          imageTargetSrc: './targets.mind',
           filterMinCF: 0.0005,
           filterBeta: 0.01
         });
 
         const { renderer, scene, camera } = mindar;
 
-        // Basic lighting so things are visible
+        // lights
         scene.add(new THREE.AmbientLight(0xffffff, 1));
         const dir = new THREE.DirectionalLight(0xffffff, 0.8);
         dir.position.set(0, 1, 1);
         scene.add(dir);
 
-        // Create an anchor bound to the first target (index 0)
+        // anchor + minimal visuals
         const anchor = mindar.addAnchor(0);
-
-        // --- Minimal visual to prove it works: a white plate + floating sphere ---
-        // Plate at the marker (8 cm square)
         const plate = new THREE.Mesh(
           new THREE.PlaneGeometry(0.08, 0.08),
           new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.18 })
@@ -94,7 +111,6 @@
         plate.rotation.x = -Math.PI/2;
         plate.position.set(0, 0.005, 0);
 
-        // Floating sphere (2 cm radius) that hovers above the plate
         const sphere = new THREE.Mesh(
           new THREE.SphereGeometry(0.02, 32, 32),
           new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.6, roughness: 0.25 })
@@ -109,19 +125,19 @@
         anchor.onTargetFound = () => { log('Target FOUND'); document.getElementById('hint').style.display = 'none'; };
         anchor.onTargetLost  = () => { log('Target LOST');  document.getElementById('hint').style.display = '';    };
 
-        // Start AR (triggers camera prompt)
-        await mindar.start();
+        await mindar.start();                  // triggers camera prompt
         document.getElementById('start').remove();
 
-        // Animate (gentle hover)
         const clock = new THREE.Clock();
         renderer.setAnimationLoop(() => {
           const t = clock.getElapsedTime();
           sphere.position.y = 0.02 + Math.sin(t * 1.6) * 0.007;
           renderer.render(scene, camera);
         });
+
       } catch (err) {
-        log('Start failed:', err && (err.message || err));
+        log('Start failed:', err.message || err);
+        alert('Start failed: ' + (err.message || err));
       }
     });
   </script>
