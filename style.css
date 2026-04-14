@@ -94,6 +94,7 @@ nav {
     top: 0;
     margin: 0;
     z-index: 100;
+    background-color: var(--for);
 }
 
 .nav-item {
@@ -116,7 +117,7 @@ nav {
     color: var(--pri);
 }
 .nav-item:hover .title {
-  color: var(--sec);
+    color: var(--sec);
 }
 .nav-item:hover .trig {
     color: var(--acc);
@@ -129,7 +130,6 @@ nav {
   grid-template-columns: 1fr 1.5fr;
   margin: 0;
   padding: 10px;
-  background-color: var(--for);
   border-bottom: 1px solid var(--sec);
 }
 .panel.hidden {
@@ -180,6 +180,7 @@ nav {
     grid-template-columns: 1fr 1.5fr;
     padding: 4px 15px;
     border-top: 1px solid var(--sec);
+    background-color: var(--for);
 }
 #contact a {
     color: var(--pri);
@@ -190,89 +191,89 @@ nav {
 
 /* grid */
 .work-list.grid-view {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .grid-view .work {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--for);
-  border-bottom: 1px solid var(--sec);
-  color: var(--acc);
-  text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--for);
+    border-bottom: 1px solid var(--sec);
+    color: var(--acc);
+    text-decoration: none;
 }
 
 .grid-view .desc {
-  padding: 5px 15px;
-  border-top: 1px solid var(--sec);
+    padding: 5px 15px;
+    border-top: 1px solid var(--sec);
 }
 
 .grid-view .work img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
 }
 
 .grid-view .work:hover img {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 /* list */
 .work-list.list-view {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .list-view .work {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.7fr 1fr 1.5fr;
-  align-items: center;
-  padding: 8px 15px;
-  border-bottom: 1px solid var(--sec);
-  background-color: var(--for);
-  color: var(--);
-  text-decoration: none;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr 1.5fr;
+    align-items: center;
+    padding: 8px 15px;
+    border-bottom: 1px solid var(--sec);
+    background-color: var(--for);
+    color: var(--);
+    text-decoration: none;
 }
 .list-view .work:hover {
-  background-color: var(--pri);
-  color: var(--sec);
+    background-color: var(--pri);
+    color: var(--sec);
 }
 
 .list-view .meta {
-  display: contents;
+    display: contents;
 }
 
 .list-view .meta h3,
 .list-view .meta p {
-  margin: 0;
+    margin: 0;
 }
 
 .list-view .hover-image {
-  position: absolute;
-  top: 200%;
-  left: 50%;
-  width: 40%;
-  opacity: 0;
-  z-index: 200;
-  border: 1px solid var(--sec);
-  pointer-events: none;
-  transform: translateY(-50%);
+    position: absolute;
+    top: 200%;
+    left: 50%;
+    width: 40%;
+    opacity: 0;
+    z-index: 200;
+    border: 1px solid var(--sec);
+    pointer-events: none;
+    transform: translateY(-50%);
 }
 
 .list-view .hover-image img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
 }
 
 .list-view .work:hover .hover-image {
-  opacity: 1;
+    opacity: 1;
 }
 
 .filter-item {
