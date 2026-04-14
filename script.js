@@ -1,20 +1,3 @@
-/* panel toggle */
-document.querySelectorAll('.nav-item[data-target]').forEach(item => {
-  item.addEventListener('click', () => {
-    const target = document.getElementById(item.dataset.target);
-    if (!target) return;
-
-    target.classList.toggle('hidden');
-
-    const trig = item.querySelector('.trig');
-    if (trig) {
-      trig.textContent = target.classList.contains('hidden')
-        ? 'show more'
-        : 'show less';
-    }
-  });
-});
-
 /* gallery */
 const container = document.querySelector('.work-list');
 const gridBtn = document.getElementById('grid-view');
@@ -91,10 +74,10 @@ function renderProjects(view = 'grid') {
 
     if (view === 'grid') {
       item.innerHTML = `
-        <img src="${project.image}" alt="${project.alt}" loading="lazy">
         <div class="desc">
           <h3>${project.title}</h3>
         </div>
+        <img src="${project.image}" alt="${project.alt}" loading="lazy">
       `;
     } else {
       item.innerHTML = `

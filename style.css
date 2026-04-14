@@ -1,14 +1,18 @@
 * { box-sizing: border-box }
 :root {
-    --pri: #a1f189;
+    --pri: #9efd81;
     --sec: #7b6fe8;
     --acc: #482d22;
-    --for:#fdfdfd;
+    --for:#f9f1ff;
+    --six: #fdfdfd;
+    --sev: #cbccd8;
+    --space-normal: 10px;
+    --space-vertical: 5px;
 }
 /* Basic setting */
 body {
     color: var(--sec);
-    background-color: var(--for);
+    background-color: var(--six);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -20,11 +24,14 @@ body {
 hr {
     width: 100%;
     border: 0.5px solid var(--pri);
+    padding: 0;
     margin: 0;
 }
 button {
     all: unset;
     background-color: var(--for);
+    padding: 0;
+    margin: 0;
 }
 
 h1 {
@@ -60,6 +67,8 @@ a {
     color: var(--acc);
     text-decoration: none;
     font-size: 11pt;
+    padding: 0;
+    margin: 0;
 }
 a:hover {
     color: var(--sec);
@@ -79,7 +88,7 @@ img {
     width: 100%;
     position: relative;
     margin: 0;
-    padding: 5px 12px;
+    padding: var(--space-vertical) var(--space-normal);
     border-bottom: 1px solid var(--sec);
     background-color: var(--pri);
 }
@@ -94,7 +103,7 @@ nav {
     top: 0;
     margin: 0;
     z-index: 100;
-    background-color: var(--for);
+    background-color: var(--six);
 }
 
 .nav-item {
@@ -102,24 +111,22 @@ nav {
     position: relative;
     margin: 0;
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1fr;
     font-size: 11pt;
-    padding: 5px 10px;
+    padding: var(--space-vertical) var(--space-normal);
     border-bottom: 1px solid var(--sec);
 }
 .title {
-    padding: 0 4px;
-    color: var(--pri);
+    color: var(--sev);
 }
 .trig {
-    padding: 0;
     width: 100%;
-    color: var(--pri);
+    color: var(--sev);
 }
-.nav-item:hover .title {
+.nav-block:hover .title {
     color: var(--sec);
 }
-.nav-item:hover .trig {
+.nav-block:hover .trig {
     color: var(--acc);
 }
 
@@ -127,21 +134,67 @@ nav {
 .panel {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr;
   margin: 0;
-  padding: 10px;
+}
+.nav-block {
+  position: relative;
+}
+.panel-menu,
+.panel-about {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 200;
+  transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+}
+.panel-menu {
+  pointer-events: none;
+}
+.panel-about {
+  pointer-events: none;
+  background-color: var(--for);
+  padding: var(--space-vertical) var(--space-normal);
   border-bottom: 1px solid var(--sec);
 }
-.panel.hidden {
-  display: none;
+.nav-projects:hover .panel-menu,
+.nav-projects:focus-within .panel-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.15s ease;
+}
+.nav-about .nav-item:hover + .panel-about,
+.nav-about .nav-item:focus-within + .panel-about {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.15s ease;
 }
 
 /* Menu Panel */
 #list {
     display: flex;
     flex-direction: column;
-    padding: 0 10px;
-    gap: 5px;
+    align-items: flex-start;
+    grid-column: 2;
+    background-color: var(--for);
+    border-bottom: 1px solid var(--sec);
+    border-left: 1px solid var(--sec);
+}
+#list .filter-item {
+    width: 100%;
+    text-align: left;
+    padding: var(--space-vertical) var(--space-normal);
+    transition: background-color 0.15s ease;
+    font-size: 28pt;
+    font-weight: 400;
+    line-height: 30pt;
+}
+#list .filter-item:hover {
+    background-color: var(--pri);
 }
 
 /* About Panel */
@@ -153,7 +206,7 @@ nav {
 }
 #intro p {
     margin: 0;
-    padding: 0 10px;
+    padding: 0 var(--space-normal);
 }
 
 #name {
@@ -169,21 +222,21 @@ nav {
     padding: 3px;
 }
 #name h1 {
-    padding: 10px 0;
+    padding: var(--space-normal) 0;
 }
 
 #contact {
     position: fixed;
-    bottom: 4px;
+    bottom: 0;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    padding: 4px 15px;
+    grid-template-columns: 1fr 1fr;
+    padding: var(--space-vertical) 15px;
     border-top: 1px solid var(--sec);
     background-color: var(--for);
 }
 #contact a {
-    color: var(--pri);
+    color: var(--sev);
 }
 #contact a:hover {
     color: var(--sec);
@@ -194,7 +247,6 @@ nav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
-
 .grid-view .work {
     display: flex;
     flex-direction: column;
@@ -203,12 +255,10 @@ nav {
     color: var(--acc);
     text-decoration: none;
 }
-
 .grid-view .desc {
-    padding: 5px 15px;
-    border-top: 1px solid var(--sec);
+    padding: var(--space-vertical) var(--space-normal);
+    border-bottom: 1px solid var(--sec);
 }
-
 .grid-view .work img {
     display: block;
     width: 100%;
@@ -216,9 +266,11 @@ nav {
     aspect-ratio: 4 / 3;
     object-fit: cover;
 }
-
 .grid-view .work:hover img {
     opacity: 0.5;
+}
+.grid-view .work:hover .desc {
+    background-color: var(--pri);
 }
 
 /* list */
@@ -232,7 +284,7 @@ nav {
     display: grid;
     grid-template-columns: 1.7fr 1fr 1.5fr;
     align-items: center;
-    padding: 8px 15px;
+    padding: var(--space-vertical) 15px;
     border-bottom: 1px solid var(--sec);
     background-color: var(--for);
     color: var(--);
@@ -278,7 +330,7 @@ nav {
 
 .filter-item {
     all: unset;
-    color: var(--pri);
+    color: var(--sev);
     font-size: 11pt;
     line-height: 1.2;
 }
@@ -289,17 +341,17 @@ nav {
 
 .view-switch {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
+    background-color: var(--for);
 }
 
 .view-switch button {
     all: unset;
-    padding: 0 4px;
-    color: var(--pri);
+    color: var(--sev);
 }
 #list-view {
-    padding: 0 10px;
+    padding: 0 var(--space-normal);
 }
 
 .view-switch button:hover,
@@ -316,12 +368,9 @@ nav {
     .list-view .work {
         grid-template-columns: 1.05fr 0.5fr 0.5fr;
     }
-    .nav-item {
-        grid-template-columns: 1fr 1fr;
-    }
-    .panel {
+    .panel-about {
         grid-template-columns: 1fr;
-        padding: 10px 5px;
+        padding: var(--space-normal) var(--space-vertical);
     }
     #name {
         display: none;
@@ -348,14 +397,14 @@ nav {
         width: 100%;
         position: relative;
         margin: 0;
-        padding: 5px 12px;
+        padding: var(--space-vertical) 12px;
         border-bottom: 1px solid var(--sec);
     }
     .work-list.grid-view {
         grid-template-columns: 1fr;
     }
     .desc {
-        padding: 5px 15px;
+        padding: var(--space-vertical) 15px;
     }
     .work img {
         padding: 15px;
