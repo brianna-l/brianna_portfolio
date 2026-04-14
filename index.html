@@ -9,39 +9,52 @@
 
 </head>
 <body>
-    <article id="opening">
-        <nav>
-            <a href="about/index.html"><div>About</div></a>
-            <hr>
-            <a href="projects/index.html"><div>Projects</div></a>
-            <hr>
-            <a href="workshops/index.html"><div>Workshops</div></a>
-            <hr>
-        </nav>
-    
-        <div id="intro">
-            <p>Hi!</p>
-            <p>I’m a designer working across prints and digital. Especially drawn to all kinds of interaction, I care about how users connect with the design. Example of creations include: intriguing usable products, playful websites, and experimental events. Dive in to explore more!</p>
-            <p>Best,</p>
+    <h1 id="me">Brianna Lou</h1>
+    <h1 id="phone-menu">All Projects</h1>
+
+    <nav>
+        <button class="nav-item" data-target="menu">
+            <div class="title">ALL PROJECTS</div>
+            <div class="trig">show more</div>
+        </button>
+
+        <div id="menu" class="panel">
+            <div></div>
+            <div id="list"></div>
         </div>
 
-        <div id="name"><h1>Brianna Lou</h1></div>
-    </article>
+        <button class="nav-item" data-target="opening">
+            <div class="title">ABOUT</div>
+            <div class="trig">show less</div>
+        </button>
 
-    <main class="Container">
-        <a href=""><div>
-            <div class="title">
-                <h3>Project Title</h3>
+        <article id="opening" class="panel">
+            <div id="name">
+                <div><p>Hi!</p></div>
+                <div><p>Best,</p>
             </div>
-            <img src="media/one.png" alt="project 1">
-        </div></a>
-        <a href=""><div>
-            <div class="title">
-                <h3>Project Title</h3>
+                
             </div>
-            <img src="media/two.png" alt="project 1">
-        </div></a>
-    </main>
+            <div id="intro">
+                <p>I’m a designer working across prints and digital. Especially drawn to all kinds of interaction, I care about how users connect with the design. Example of creations include: intriguing usable products, playful websites, and experimental events. Dive in to explore more!</p>
+            </div>
+        </article>
 
+        <div class="nav-item view-switch">
+            <button id="grid-view" type="button">GRID</button>
+            <button id="list-view" type="button">LIST</button>
+        </div>
+        
+    </nav>
+
+    <main class="work-list"></main>
+
+    <div id="contact">
+        <h3><a href="briannalou453@gmail.com">briannalou453@gmail.com</a></h3>
+        <h3><a href="https://www.instagram.com/bri_l85/" target="_blank">IG: bri_l85</a></h3>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
