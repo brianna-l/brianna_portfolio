@@ -12,7 +12,7 @@
 /* Basic setting */
 body {
     color: var(--sec);
-    background-color: var(--six);
+    background-color: var(--sev);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -42,9 +42,9 @@ h1 {
     margin: 0;
 }
 h2 {
-    font-size: 16pt;
-    font-weight: 300;
-    line-height: 18pt;
+    font-size: 42pt;
+    font-weight: 200;
+    line-height: 44pt;
     padding: 0;
     margin: 0;
 }
@@ -83,18 +83,19 @@ img {
 
 /* Home Page */
 /* Navigation */
-#me {
+.me, .click {
+    display: flex;
+    justify-content: space-between;
     color: var(--acc);
     width: 100%;
     position: relative;
     margin: 0;
     padding: var(--space-vertical) var(--space-normal);
     border-bottom: 1px solid var(--sec);
-    background-color: var(--pri);
+    background-color: var(--for);
 }
-
-#phone-menu {
-    display: none;
+.click:hover {
+    background-color: var(--pri);
 }
 
 nav {
@@ -103,7 +104,7 @@ nav {
     top: 0;
     margin: 0;
     z-index: 100;
-    background-color: var(--six);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .nav-item {
@@ -137,55 +138,22 @@ nav {
   grid-template-columns: 1fr 1fr;
   margin: 0;
 }
-.nav-block {
-  position: relative;
-}
-.panel-menu,
 .panel-about {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 200;
-  transition: opacity 0.15s ease, visibility 0s linear 0.15s;
-}
-.panel-menu {
-  pointer-events: none;
-}
-.panel-about {
-  pointer-events: none;
   background-color: var(--for);
   padding: var(--space-vertical) var(--space-normal);
   border-bottom: 1px solid var(--sec);
 }
-.nav-projects:hover .panel-menu,
-.nav-projects:focus-within .panel-menu {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity 0.15s ease;
-}
-.nav-about .nav-item:hover + .panel-about,
-.nav-about .nav-item:focus-within + .panel-about {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.15s ease;
-}
 
 /* Menu Panel */
 #list {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: flex-start;
-    grid-column: 2;
     background-color: var(--for);
-    border-bottom: 1px solid var(--sec);
-    border-left: 1px solid var(--sec);
 }
 #list .filter-item {
-    width: 100%;
     text-align: left;
     padding: var(--space-vertical) var(--space-normal);
     transition: background-color 0.15s ease;
@@ -251,13 +219,14 @@ nav {
     display: flex;
     flex-direction: column;
     background-color: var(--for);
-    border-bottom: 1px solid var(--sec);
     color: var(--acc);
     text-decoration: none;
 }
 .grid-view .desc {
     padding: var(--space-vertical) var(--space-normal);
-    border-bottom: 1px solid var(--sec);
+    border-top: 1px solid var(--sec);
+    text-transform: uppercase;
+    color:var(--sev);
 }
 .grid-view .work img {
     display: block;
@@ -271,6 +240,7 @@ nav {
 }
 .grid-view .work:hover .desc {
     background-color: var(--pri);
+    color:var(--acc);
 }
 
 /* list */
@@ -340,15 +310,21 @@ nav {
 }
 
 .view-switch {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    background-color: var(--for);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-vertical);
+    background-color: transparent;
 }
 
 .view-switch button {
     all: unset;
     color: var(--sev);
+    font-size: 28pt;
+    font-weight: 400;
+    line-height: 30pt;
+    background-color: var(--for);
 }
 #list-view {
     padding: 0 var(--space-normal);
@@ -357,6 +333,7 @@ nav {
 .view-switch button:hover,
 .view-switch button.active {
     color: var(--sec);
+    background-color: var(--pri);
 }
 
 @media screen and (max-width: 1080px) {
@@ -375,6 +352,12 @@ nav {
     #name {
         display: none;
     }
+    .panel {
+        grid-template-columns: 1fr;
+    }
+    #list {
+        padding: var(--space-vertical) 0;
+    }
 }
 @media screen and (max-width: 480px){
     p {
@@ -388,26 +371,28 @@ nav {
         line-height: 28pt;
         color: var(--acc);
     }
-    nav, .panel{
-        display: none;
+    h3 {
+        font-weight: 600;
     }
-    #phone-menu {
-        display: inline-block;
-        color: var(--sec);
-        width: 100%;
-        position: relative;
-        margin: 0;
-        padding: var(--space-vertical) 12px;
-        border-bottom: 1px solid var(--sec);
+    .me, .click {
+        flex-direction: column;
+        background-color: var(--pri);
+    }
+    #list .filter-item {
+        font-size: 21pt;
+        font-weight: 400;
+        line-height: 19pt;
     }
     .work-list.grid-view {
         grid-template-columns: 1fr;
     }
-    .desc {
-        padding: var(--space-vertical) 15px;
+    .grid-view .desc {
+        text-align: center;
+        background-color: var(--sev);
+        color: var(--for);
     }
     .work img {
-        padding: 15px;
+        padding: 0 15px;
     }
     .work img:hover {
         opacity: 1;
