@@ -3,7 +3,7 @@ const projects = [
     title: "With Habit",
     time: "2026",
     categories: ["Product", "Print"],
-    image: "/brianna_portfolio/media/withhabit-1.jpg",
+    image: "/media/withhabit-1.jpg",
     link: "habit.html",
     alt: "With Habit cover image"
   },
@@ -11,7 +11,7 @@ const projects = [
     title: "Moma PSX",
     time: "2025",
     categories: ["Branding", "Digital"],
-    image: "/brianna_portfolio/media/psx-1.jpg",
+    image: "/media/psx-1.jpg",
     link: "project2.html",
     alt: "Moma PSX cover image"
   },
@@ -19,7 +19,7 @@ const projects = [
     title: "Echo",
     time: "2025",
     categories: ["Connection", "Digital", "App"],
-    image: "/brianna_portfolio/media/echo-1.jpg",
+    image: "/media/echo-1.jpg",
     link: "echo.html",
     alt: "Echo cover image"
   },
@@ -27,7 +27,7 @@ const projects = [
     title: "Upcyclo",
     time: "2025",
     categories: ["Connection", "Digital", "Print"],
-    image: "/brianna_portfolio/media/upcyclo-1.jpg",
+    image: "/media/upcyclo-1.jpg",
     link: "upcyclo.html",
     alt: "Upcyclo cover image"
   },
@@ -35,7 +35,7 @@ const projects = [
     title: "Music+",
     time: "2024",
     categories: ["Media", "Digital", "App"],
-    image: "/brianna_portfolio/media/music1.jpg",
+    image: "/media/music1.jpg",
     link: "music.html",
     alt: "Music+ cover image"
   },
@@ -43,7 +43,7 @@ const projects = [
     title: "Inside Out",
     time: "2023",
     categories: ["Nature", "Digital"],
-    image: "/brianna_portfolio/media/one.png",
+    image: "/media/one.png",
     link: "inout.html",
     alt: "Inside Out cover image"
   },
@@ -51,7 +51,7 @@ const projects = [
     title: "Mirrored Universe",
     time: "2023",
     categories: ["Film", "Digital", "Print"],
-    image: "/brianna_portfolio/media/universe.jpg",
+    image: "/media/universe.jpg",
     link: "universe.html",
     alt: "Mirrored Universe cover image"
   }
