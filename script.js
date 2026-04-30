@@ -122,5 +122,7 @@ if (listBtn) {
 }
 
 /* init */
-renderFilters();
-renderProjects(currentView);
+if (container) {
+  renderFilters();
+  renderProjects(currentView);
+}
