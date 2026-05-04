@@ -4,7 +4,7 @@ const projects = [
     time: "2026",
     categories: ["Product", "Print"],
     image: "/media/withhabit-1.jpg",
-    link: "habit.html",
+    link: "/projects/habit.html",
     alt: "With Habit cover image"
   },
   {
@@ -12,7 +12,7 @@ const projects = [
     time: "2025",
     categories: ["Branding", "Digital"],
     image: "/media/psx-1.jpg",
-    link: "project2.html",
+    link: "/projects/psx.html",
     alt: "Moma PSX cover image"
   },
   {
@@ -20,7 +20,7 @@ const projects = [
     time: "2025",
     categories: ["Connection", "Digital", "App"],
     image: "/media/echo-1.jpg",
-    link: "echo.html",
+    link: "/projects/echo.html",
     alt: "Echo cover image"
   },
   {
@@ -28,7 +28,7 @@ const projects = [
     time: "2025",
     categories: ["Connection", "Digital", "Print"],
     image: "/media/upcyclo-1.jpg",
-    link: "upcyclo.html",
+    link: "/projects/upcyclo.html",
     alt: "Upcyclo cover image"
   },
   {
@@ -36,7 +36,7 @@ const projects = [
     time: "2024",
     categories: ["Media", "Digital", "App"],
     image: "/media/music1.jpg",
-    link: "music.html",
+    link: "/projects/music.html",
     alt: "Music+ cover image"
   },
   {
@@ -44,7 +44,7 @@ const projects = [
     time: "2023",
     categories: ["Nature", "Digital"],
     image: "/media/one.png",
-    link: "inout.html",
+    link: "/projects/inout.html",
     alt: "Inside Out cover image"
   },
   {
@@ -52,7 +52,7 @@ const projects = [
     time: "2023",
     categories: ["Film", "Digital", "Print"],
     image: "/media/universe.jpg",
-    link: "universe.html",
+    link: "/projects/universe.html",
     alt: "Mirrored Universe cover image"
   }
 ];
